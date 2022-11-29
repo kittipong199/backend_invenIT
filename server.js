@@ -7,7 +7,8 @@ const app = express();
 
 app.use(cors());
 
-var  updateId = require('./Controllers/create_item')
+var  updateId = require('./Controllers/create_item');
+const { json } = require('sequelize');
 
 app.use(express.json());
 
@@ -29,6 +30,112 @@ connection.connect((err) => {
 
 
 
+
+//// get all Brand Table
+
+app.get("/getbrand", async (req, res) => {
+
+    try{
+        connection.query(
+            `SELECT * FROM items_brand_list
+            
+                
+            `, 
+            (err, results, fields) => {
+                if (err) {
+                    console.log("Error while insert a user into the DB",err);
+                    return res.status(400).send();
+                }
+                return res.status(201).json(results);
+            }
+        )
+    } catch(err){
+        console.log(err);
+        return res.status(500).send();
+    }
+})
+//// get all Type Table
+
+app.get("/gettype", async (req, res) => {
+
+    try{
+        connection.query(
+            `SELECT *
+            FROM items_type_list
+                
+            `, 
+            (err, results, fields) => {
+                if (err) {
+                    console.log("Error while insert a user into the DB",err);
+                    return res.status(400).send();
+                }
+                return res.status(201).json(results);
+            }
+        )
+    } catch(err){
+        console.log(err);
+        return res.status(500).send();
+    }
+})
+
+
+/// GET Count by type 
+
+//////// ส่วนนี้ครับ ที่ count type 
+
+app.get("/gettype/count_type", async (req, res) => {
+
+    try{
+        connection.query(
+            `SELECT items_collection.item_id, it_inventory.items_brand_list.brand_name, it_inventory.items_type_list.type_name, it_inventory.project_list.project_name, count(*) as counts
+            FROM it_inventory.items_collection
+                INNER JOIN it_inventory.items_brand_list ON it_inventory.items_collection.brand_id = it_inventory.items_brand_list.brand_id
+                INNER JOIN it_inventory.items_type_list ON it_inventory.items_collection.type_id = it_inventory.items_type_list.type_id
+                INNER JOIN it_inventory.project_list ON it_inventory.items_collection.project_id = it_inventory.project_list.project_id  
+      
+            Group by it_inventory.items_type_list.type_name ,project_name
+            `, 
+            (err, results, fields) => {
+                if (err) {
+                    console.log("Error while insert a user into the DB",err);
+                    return res.status(400).send();
+                }
+                return res.status(201).json(results);
+            }
+        )
+    } catch(err){
+        console.log(err);
+        return res.status(500).send();
+    }
+})
+////////////////////////////////////////////////////////////////////////////////
+
+//// get all Project Table
+
+app.get("/getproject", async (req, res) => {
+   
+  
+    
+    try{
+        connection.query(
+            `SELECT * FROM project_list
+            
+                
+            `, 
+        
+            (err, results, fields) => {
+                if (err) {
+                    console.log("Error while insert a user into the DB",err);
+                    return res.status(400).send();
+                }
+                return res.status(201).json(results);
+            }
+        )
+    } catch(err){
+        console.log(err);
+        return res.status(500).send();
+    }
+})
 // Read get all data
 app.get("/getall", async (req, res) => {
 
@@ -123,25 +230,21 @@ app.post("/create", async (req, res) => {
         connection.query(
            `INSERT INTO it_inventory.items_collection
            (
-              
                brand_id,
                type_id,
                serial_no, 
                item_details, 
                fixasset,
                project_id
-               
            ) 
        VALUES
            (
-            
-            (SELECT brand_id FROM it_inventory.items_brand_list WHERE brand_name = ?),
-            (SELECT type_id FROM it_inventory.items_type_list WHERE type_name = ?),
+            (SELECT brand_id FROM it_inventory.items_brand_list WHERE brand_name =?),
+            (SELECT type_id FROM it_inventory.items_type_list WHERE type_name =?),
                ?,
                ?,
                ?,
-            (SELECT project_id FROM it_inventory.project_list WHERE project_name = ?)
-               
+            (SELECT project_id FROM it_inventory.project_list WHERE project_name =?)
            );`,
             [ brand_name,type_name,serial_numbar,item_details,fixasset,project_name],
             (err, results, fields) => {
@@ -167,16 +270,35 @@ app.post("/create", async (req, res) => {
 
 app.patch("/update/:id", async (req, res) => {
     const id = req.params.id;
-    const newPassword = req.body.newPassword;
+    const { brand_name,type_name,serial_numbar,item_details ,fixasset,project_name} = req.body;
     try{
         connection.query(
-            "UPDATE user SET password = ? WHERE id = ?", [newPassword,id], 
+            `Update it_inventory.items_collection 
+            join it_inventory.items_brand_list on items_collection.brand_id = items_brand_list.brand_id
+            join it_inventory.items_type_list on items_collection.type_id = items_type_list.type_id
+            
+            join it_inventory.project_list on items_collection.project_id = project_list.project_id
+            
+            set 
+            
+            it_inventory.items_brand_list.brand_name =? ,
+            it_inventory.items_type_list.type_name =? ,
+            it_inventory.items_collection.serial_no =? ,
+            it_inventory.items_collection.item_details =? ,
+            it_inventory.items_collection.fixasset =? ,
+            it_inventory.project_list.project_name =?''
+            
+            
+            where item_id = ?
+                       
+            ;`, 
+            [brand_name,type_name,serial_numbar,item_details ,fixasset,project_name,id], 
             (err, results, fields) => {
                 if (err) {
                     console.log("Error while insert a user into the DB",err);
                     return res.status(400).send();
                 }
-                return res.status(201).json({message: "Cheange password successfully"});
+                return res.status(201).json({message: "Update successfully"});
             }
         )
     } catch(err){

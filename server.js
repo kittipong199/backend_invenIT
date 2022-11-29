@@ -14,9 +14,9 @@ app.use(express.json());
 
 
 const connection = mysql.createConnection({
-    host: 'chbwapp001',
+    host: '',
     user: 'root',
-    password: 'Maxim123;',
+    password: ';',
     database:'it_inventory',
     port: '3306'
 });

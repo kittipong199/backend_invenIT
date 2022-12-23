@@ -1,5 +1,5 @@
 {
-  "name": "backinventory",
+  "name": "backnodeinventory",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -7,16 +7,13 @@
     "start": "node server",
     "dev": "nodemon server"
   },
-  "keywords": [],
-  "author": "",
+  "author": "InventoryIT",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "knex": "^2.3.0",
     "mysql": "^2.18.1",
-    "mysql2": "^2.3.3",
-    "sequelize": "^6.25.3"
+    "sequelize": "^6.26.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

@@ -52,6 +52,71 @@ router.post("/create", async (req, res) => {
   })
 
 
+  router.post("/create/brand", async (req, res) => {
+    const { brand_name,remarks} = req.body;
+  
+    try{
+        db.query(
+           `INSERT INTO it_inventory.items_brand_list
+           (
+               brand_name,
+               remarks
+           ) 
+       VALUES
+       (
+               ?,
+               ?
+           );`,
+            [ brand_name,remarks],
+            (err, results, fields) => {
+                if (err) {
+                    console.log("Error while insert a user into the DB",err);
+                    return res.status(400).send();
+                }
+                return res.status(201).json({ message: "new user successfully"});
+            }
+        )
+    } catch(err){
+        console.log(err);
+        return res.status(500).send();
+  
+  
+    }
+  })
+
+  router.post("/create/type", async (req, res) => {
+    const { type_name,remarks} = req.body;
+  
+    try{
+        db.query(
+           `INSERT INTO it_inventory.items_type_list
+           (
+               type_name,
+               remarks
+           ) 
+       VALUES(
+           
+               ?,
+               ?
+          
+           );`,
+            [ type_name,remarks],
+            (err, results, fields) => {
+                if (err) {
+                    console.log("Error while insert a user into the DB",err);
+                    return res.status(400).send();
+                }
+                return res.status(201).json({ message: "new user successfully"});
+            }
+        )
+    } catch(err){
+        console.log(err);
+        return res.status(500).send();
+  
+  
+    }
+  })
+
 
 
 // Update 

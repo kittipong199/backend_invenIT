@@ -52,6 +52,7 @@ router.post("/create", async (req, res) => {
   })
 
 
+<<<<<<< HEAD
   router.post("/create/brand", async (req, res) => {
     const { brand_name,remarks} = req.body;
   
@@ -117,6 +118,8 @@ router.post("/create", async (req, res) => {
     }
   })
 
+=======
+>>>>>>> abf44b5d2c576c9cdc3f0370cff3406e0e82eeac
 
 
 // Update 

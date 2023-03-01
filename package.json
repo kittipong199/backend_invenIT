@@ -13,7 +13,10 @@
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+<<<<<<< HEAD
     "jsonwebtoken": "^9.0.0",
+=======
+>>>>>>> abf44b5d2c576c9cdc3f0370cff3406e0e82eeac
     "mysql": "^2.18.1",
     "sequelize": "^6.26.0"
   },

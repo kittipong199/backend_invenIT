@@ -1,5 +1,9 @@
 const express = require('express');
+<<<<<<< HEAD
 const { json } = require('sequelize');
+=======
+
+>>>>>>> abf44b5d2c576c9cdc3f0370cff3406e0e82eeac
 const db = require('../../DB/index');
 
 const router = express.Router();
@@ -61,7 +65,11 @@ router.get("/type/count_type", async (req, res) => {
 
     try{
         db.query(
+<<<<<<< HEAD
             `SELECT items_collection.item_id,it_inventory.items_type_list.type_id,it_inventory.items_brand_list.brand_id,it_inventory.project_list.project_id, it_inventory.items_brand_list.brand_name, it_inventory.items_type_list.type_name, it_inventory.project_list.project_name, count(*) as counts
+=======
+            `SELECT items_collection.item_id, it_inventory.items_brand_list.brand_name, it_inventory.items_type_list.type_name, it_inventory.project_list.project_name, count(*) as counts
+>>>>>>> abf44b5d2c576c9cdc3f0370cff3406e0e82eeac
             FROM it_inventory.items_collection
                 INNER JOIN it_inventory.items_brand_list ON it_inventory.items_collection.brand_id = it_inventory.items_brand_list.brand_id
                 INNER JOIN it_inventory.items_type_list ON it_inventory.items_collection.type_id = it_inventory.items_type_list.type_id
@@ -85,6 +93,7 @@ router.get("/type/count_type", async (req, res) => {
 
 
 // Read get by id
+<<<<<<< HEAD
 router.get("/:type_id/:project_id", async (req, res) => {
 
     const getId = req.params.type_id;
@@ -94,11 +103,24 @@ router.get("/:type_id/:project_id", async (req, res) => {
     try{
         db.query(
             `SELECT it_inventory.items_collection.item_id,it_inventory.items_type_list.type_id,it_inventory.items_brand_list.brand_id,it_inventory.project_list.project_id, it_inventory.items_brand_list.brand_name, it_inventory.items_type_list.type_name, it_inventory.project_list.project_name,item_details,serial_no,fixasset
+=======
+router.get("/get/:type_name", async (req, res) => {
+
+    const getId = req.params.type_name;
+
+    try{
+        db.query(
+            `SELECT it_inventory.items_collection.item_id, it_inventory.items_brand_list.brand_name, it_inventory.items_type_list.type_name, it_inventory.project_list.project_name,item_details,serial_no
+>>>>>>> abf44b5d2c576c9cdc3f0370cff3406e0e82eeac
             FROM (((it_inventory.items_collection
                 INNER JOIN it_inventory.items_brand_list ON it_inventory.items_collection.brand_id = it_inventory.items_brand_list.brand_id)
                 INNER JOIN it_inventory.items_type_list ON it_inventory.items_collection.type_id = it_inventory.items_type_list.type_id)
                 INNER JOIN it_inventory.project_list ON it_inventory.items_collection.project_id = it_inventory.project_list.project_id)  
+<<<<<<< HEAD
             WHERE it_inventory.items_type_list.type_id = ${getId} AND it_inventory.project_list.project_id = ${getPRoId}
+=======
+            WHERE type_name = ${getId}
+>>>>>>> abf44b5d2c576c9cdc3f0370cff3406e0e82eeac
             `, 
             
             (err, results, fields) => {
@@ -131,6 +153,7 @@ router.get("/type/item/detals/:type_name", async (req, res) => {
     where it_inventory.items_type_list.type_name = ${TypeName}`;
     try{
         db.query(
+<<<<<<< HEAD
              `SELECT items_collection.item_id, 
              it_inventory.items_type_list.type_name, 
              it_inventory.project_list.project_name,
@@ -138,6 +161,9 @@ router.get("/type/item/detals/:type_name", async (req, res) => {
               serial_no ,
               item_details,
               fixasset
+=======
+             `SELECT items_collection.item_id, it_inventory.items_type_list.type_name, it_inventory.project_list.project_name, it_inventory.items_brand_list.brand_name,serial_no ,item_details,fixasset
+>>>>>>> abf44b5d2c576c9cdc3f0370cff3406e0e82eeac
              FROM (((it_inventory.items_collection
                  INNER JOIN it_inventory.items_brand_list ON it_inventory.items_collection.brand_id = it_inventory.items_brand_list.brand_id)
                  INNER JOIN it_inventory.items_type_list ON it_inventory.items_collection.type_id = it_inventory.items_type_list.type_id)
@@ -215,12 +241,16 @@ router.get("/all", async (req, res) => {
 
     try{
         db.query(
+<<<<<<< HEAD
             `SELECT it_inventory.items_collection.item_id,
              it_inventory.items_brand_list.brand_name, 
              it_inventory.items_type_list.type_name, 
              it_inventory.project_list.project_name,
              item_details,
              serial_no
+=======
+            `SELECT it_inventory.items_collection.item_id, it_inventory.items_brand_list.brand_name, it_inventory.items_type_list.type_name, it_inventory.project_list.project_name,item_details,serial_no
+>>>>>>> abf44b5d2c576c9cdc3f0370cff3406e0e82eeac
             FROM (((it_inventory.items_collection
                 INNER JOIN it_inventory.items_brand_list ON it_inventory.items_collection.brand_id = it_inventory.items_brand_list.brand_id)
                 INNER JOIN it_inventory.items_type_list ON it_inventory.items_collection.type_id = it_inventory.items_type_list.type_id)
